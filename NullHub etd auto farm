@@ -39,3 +39,45 @@ for i, upgrade in ipairs(upgrades) do
         changeMode(upgrade.name, upgrade.position, upgrade.angles, upgrade.tower)
     end
 end
+
+local player = game.Players.LocalPlayer -- ใช้ LocalPlayer
+
+-- ฟังก์ชันสำหรับตรวจสอบ Gold
+local function hasEnoughGold(amount)
+    local playerData = game.Players:FindFirstChild(player.Name) -- ดึงข้อมูลจาก Players
+    if playerData and playerData:FindFirstChild("Gold") then
+        return playerData.Gold.Value >= amount
+    end
+    return false
+end
+
+-- ฟังก์ชันสำหรับส่งคำสั่ง ChangeMode
+local function changeMode(name, position, angles, towerName)
+    local args = {
+        [1] = name,
+        [2] = position * angles,
+        [3] = towerName and workspace.Towers:FindFirstChild(towerName) or nil
+    }
+    game:GetService("ReplicatedStorage").Functions.SpawnTower:InvokeServer(unpack(args))
+end
+
+-- ขั้นตอนการอัปเกรด
+local upgrades = {
+    {name = "Deer box1", gold = 100, position = CFrame.new(1.9485, 4.9869, 12.8052), angles = CFrame.Angles(0, 0, 0), tower = nil},
+    {name = "Deer box2", gold = 300, position = CFrame.new(1.9485, 4.9869, 12.8052), angles = CFrame.Angles(-3.1416, 0.3083, -3.1416), tower = "Deer box1"},
+    {name = "Deer box3(MAX)", gold = 500, position = CFrame.new(1.9485, 4.9869, 12.8052), angles = CFrame.Angles(-3.1416, -0.5998, -3.1416), tower = "Deer box2"},
+}
+
+-- ทำงานตามขั้นตอน
+for i, upgrade in ipairs(upgrades) do
+    if i == 1 then
+        -- ทำงานส่วนแรกทันทีโดยไม่ตรวจสอบ Gold
+        changeMode(upgrade.name, upgrade.position, upgrade.angles, upgrade.tower)
+    else
+        -- รอจนกว่า Gold จะเพียงพอในส่วนที่เหลือ
+        while not hasEnoughGold(upgrade.gold) do
+            task.wait(0.1)
+        end
+        changeMode(upgrade.name, upgrade.position, upgrade.angles, upgrade.tower)
+    end
+end
