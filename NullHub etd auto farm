@@ -2,9 +2,9 @@ local player = game.Players.LocalPlayer -- สมมติว่าคุณใ�
 
 -- ฟังก์ชันสำหรับตรวจสอบ Gold
 local function hasEnoughGold(amount)
-    if workspace.PlayerStats:FindFirstChild(player.Name) and 
-       workspace.PlayerStats[player.Name]:FindFirstChild("Gold") and 
-       workspace.PlayerStats[player.Name].Gold.Value >= amount then
+    if Players:FindFirstChild(player.Name) and 
+       Players[player.Name]:FindFirstChild("Gold") and 
+       Players[player.Name].Gold.Value >= amount then
         return true
     end
     return false
