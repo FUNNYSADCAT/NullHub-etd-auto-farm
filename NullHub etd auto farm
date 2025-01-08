@@ -17,14 +17,14 @@ local function changeMode(name, position, angles, towerName)
         [2] = position * angles,
         [3] = towerName and workspace.Towers:FindFirstChild(towerName) or nil
     }
-    game:GetService("ReplicatedStorage").Functions.ChangeMode:InvokeServer(unpack(args))
+    game:GetService("ReplicatedStorage").Functions.SpawnTower:InvokeServer(unpack(args))
 end
 
 -- ขั้นตอนการอัปเกรด
 local upgrades = {
     {name = "Kachapond box1", gold = 0, position = CFrame.new(1.9485206604003906, 4.986931800842285, 12.805196762084961), angles = CFrame.Angles(0, 0, 0), tower = nil},
-    {name = "Kachapond box2", gold = 700, position = CFrame.new(1.9485206604003906, 4.986931800842285, 12.805196762084961), angles = CFrame.Angles(-3.1415927410125732, 0.3082665503025055, -3.1415927410125732), tower = "Ninja Cameraman"},
-    {name = "Kachapond box3", gold = 1500, position = CFrame.new(1.9485206604003906, 4.986931800842285, 12.805196762084961), angles = CFrame.Angles(-3.1415927410125732, -0.5998259782791138, -3.1415927410125732), tower = "Ninja Cameraman2"},
+    {name = "Kachapond box2", gold = 700, position = CFrame.new(1.9485206604003906, 4.986931800842285, 12.805196762084961), angles = CFrame.Angles(-3.1415927410125732, 0.3082665503025055, -3.1415927410125732), tower = "Kachapond box1"},
+    {name = "Kachapond box3", gold = 1500, position = CFrame.new(1.9485206604003906, 4.986931800842285, 12.805196762084961), angles = CFrame.Angles(-3.1415927410125732, -0.5998259782791138, -3.1415927410125732), tower = "Kachapond box2"},
 }
 
 -- ทำงานตามขั้นตอน
