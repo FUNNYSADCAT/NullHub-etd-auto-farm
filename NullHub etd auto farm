@@ -1,11 +1,10 @@
-local player = game.Players.LocalPlayer -- สมมติว่าคุณใช้ LocalPlayer
+local player = game.Players.LocalPlayer -- ใช้ LocalPlayer
 
 -- ฟังก์ชันสำหรับตรวจสอบ Gold
 local function hasEnoughGold(amount)
-    if Players:FindFirstChild(player.Name) and 
-       Players[player.Name]:FindFirstChild("Gold") and 
-       Players[player.Name].Gold.Value >= amount then
-        return true
+    local playerData = game.Players:FindFirstChild(player.Name) -- ดึงข้อมูลจาก Players
+    if playerData and playerData:FindFirstChild("Gold") then
+        return playerData.Gold.Value >= amount
     end
     return false
 end
@@ -22,9 +21,9 @@ end
 
 -- ขั้นตอนการอัปเกรด
 local upgrades = {
-    {name = "Kachapond box1", gold = 0, position = CFrame.new(1.9485206604003906, 4.986931800842285, 12.805196762084961), angles = CFrame.Angles(0, 0, 0), tower = nil},
-    {name = "Kachapond box2", gold = 700, position = CFrame.new(1.9485206604003906, 4.986931800842285, 12.805196762084961), angles = CFrame.Angles(-3.1415927410125732, 0.3082665503025055, -3.1415927410125732), tower = "Kachapond box1"},
-    {name = "Kachapond box3(MAX)", gold = 1500, position = CFrame.new(1.9485206604003906, 4.986931800842285, 12.805196762084961), angles = CFrame.Angles(-3.1415927410125732, -0.5998259782791138, -3.1415927410125732), tower = "Kachapond box2"},
+    {name = "Kachapond box1", gold = 0, position = CFrame.new(1.9485, 4.9869, 12.8052), angles = CFrame.Angles(0, 0, 0), tower = nil},
+    {name = "Kachapond box2", gold = 700, position = CFrame.new(1.9485, 4.9869, 12.8052), angles = CFrame.Angles(-3.1416, 0.3083, -3.1416), tower = "Kachapond box1"},
+    {name = "Kachapond box3(MAX)", gold = 1500, position = CFrame.new(1.9485, 4.9869, 12.8052), angles = CFrame.Angles(-3.1416, -0.5998, -3.1416), tower = "Kachapond box2"},
 }
 
 -- ทำงานตามขั้นตอน
@@ -39,17 +38,4 @@ for i, upgrade in ipairs(upgrades) do
         end
         changeMode(upgrade.name, upgrade.position, upgrade.angles, upgrade.tower)
     end
-end
-
-local player = game.Players.LocalPlayer -- สมมติว่าคุณใช้ LocalPlayer
-
--- ฟังก์ชันสำหรับตรวจสอบ Gold
-local function hasEnoughGold(amount)
-    local playerStats = workspace.PlayerStats:FindFirstChild(player.Name)
-    if playerStats and playerStats:FindFirstChild("Gold") then
-        if playerStats.Gold.Value >= amount then
-            return true
-        end
-    end
-    return false
 end
