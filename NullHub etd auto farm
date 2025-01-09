@@ -81,3 +81,26 @@ for i, upgrade in ipairs(upgrades) do
         changeMode(upgrade.name, upgrade.position, upgrade.angles, upgrade.tower)
     end
 end
+
+local Player = game.Players.LocalPlayer
+local VirtualUser = game:GetService("VirtualUser")
+
+-- ส่งการคลิกทุก 300 วินาที (5 นาที)
+while true do
+    wait(300) -- 300 วินาที (5 นาที)
+    VirtualUser:ClickButton1(Vector2.new(0,0)) -- ส่งคลิกที่ตำแหน่ง (0,0)
+end
+
+local targetPlaceId = 76992618628676 -- ใส่ PlaceId ที่ต้องการ
+repeat wait() until game.CoreGui:FindFirstChild('RobloxPromptGui')
+
+local lp,po,ts = game:GetService('Players').LocalPlayer,game.CoreGui.RobloxPromptGui.promptOverlay,game:GetService('TeleportService')
+
+po.ChildAdded:connect(function(a)
+    if a.Name == 'ErrorPrompt' then
+        repeat
+            ts:Teleport(targetPlaceId) -- ใช้ PlaceId ที่กำหนดเอง
+            wait(0.5)
+        until false
+    end
+end)
