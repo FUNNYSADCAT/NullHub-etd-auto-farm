@@ -49,7 +49,7 @@ local PlayerGui = LocalPlayer:WaitForChild("PlayerGui")
 local GameGui = PlayerGui:WaitForChild("GameGui")
 local EndScreen = GameGui:WaitForChild("EndScreen")
 
-local function waitAndClickExit()
+local function checkAndClickExit()
     while true do
         -- ค้นหาปุ่ม Exit
         local exitButton = EndScreen:FindFirstChild("Exit")
@@ -60,13 +60,12 @@ local function waitAndClickExit()
             VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.Return, false, game)
 
             print("Exit button clicked!")
-            break -- หยุดลูปหลังจากกดปุ่ม
         end
         task.wait(0.1) -- รอ 0.1 วินาทีก่อนตรวจสอบอีกครั้ง
     end
 end
 
-waitAndClickExit()
+checkAndClickExit()
 
 
 local Player = game.Players.LocalPlayer
