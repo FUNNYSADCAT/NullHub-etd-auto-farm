@@ -48,24 +48,24 @@ local LocalPlayer = Players.LocalPlayer
 local PlayerGui = LocalPlayer:WaitForChild("PlayerGui")
 local GameGui = PlayerGui:WaitForChild("GameGui")
 local EndScreen = GameGui:WaitForChild("EndScreen")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local ExitGameEvent = ReplicatedStorage:WaitForChild("Events"):WaitForChild("ExitGame")
 
-local function checkAndClickExit()
+local function waitForExitAndFire()
     while true do
         -- ค้นหาปุ่ม Exit
         local exitButton = EndScreen:FindFirstChild("Exit")
         if exitButton and exitButton:IsA("TextButton") then
-            -- ใช้ VirtualInputManager จำลองการกดปุ่ม
-            local VirtualInputManager = game:GetService("VirtualInputManager")
-            VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.Return, false, game)
-            VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.Return, false, game)
-
-            print("Exit button clicked!")
+            -- เรียกใช้ Remote Event
+            ExitGameEvent:FireServer()
+            print("ExitGame Remote Event fired!")
+            break -- หยุดลูปหลังจากเรียกใช้ Remote Event
         end
         task.wait(0.1) -- รอ 0.1 วินาทีก่อนตรวจสอบอีกครั้ง
     end
 end
 
-checkAndClickExit()
+waitForExitAndFire()
 
 
 local Player = game.Players.LocalPlayer
