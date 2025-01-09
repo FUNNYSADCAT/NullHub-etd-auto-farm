@@ -43,31 +43,25 @@ for i, upgrade in ipairs(upgrades) do
     end
 end
 
-local Players = game:GetService("Players")
-local LocalPlayer = Players.LocalPlayer
-local PlayerGui = LocalPlayer:WaitForChild("PlayerGui")
-local GameGui = PlayerGui:WaitForChild("GameGui")
-local EndScreen = GameGui:WaitForChild("EndScreen")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local ExitGameEvent = ReplicatedStorage:WaitForChild("Events"):WaitForChild("ExitGame")
 
-local function waitForExitAndFire()
+local function checkWaveAndExit()
     while true do
-        -- เช็คว่า EndScreen และ Exit มีอยู่หรือไม่
-        local exitButton = EndScreen:FindFirstChild("Exit")
-        if exitButton and exitButton:IsA("TextButton") then
-            -- เรียก Remote Event เมื่อ Exit ปรากฏ
-            ExitGameEvent:FireServer()
+        -- ตรวจสอบ Wave
+        local waveValue = workspace:WaitForChild("Info"):WaitForChild("Wave")
+        if waveValue.Value == 10 then
+            print("Wave 10 detected! Waiting for 30 seconds...")
+            task.wait(30) -- รอ 30 วินาที
+            ExitGameEvent:FireServer() -- เรียกใช้ Remote Event
             print("ExitGame Remote Event fired!")
-            break -- หยุดการทำงานเมื่อส่งสำเร็จ
+            break -- หยุดลูปหลังจากส่ง Remote Event
         end
-        task.wait(0.1) -- รอ 0.1 วินาทีก่อนตรวจสอบอีกครั้ง
+        task.wait(1) -- รอ 1 วินาทีก่อนตรวจสอบใหม่
     end
 end
 
-waitForExitAndFire()
-
-waitForExitAndFire()
+checkWaveAndExit()
 
 
 local Player = game.Players.LocalPlayer
