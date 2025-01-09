@@ -1,3 +1,4 @@
+wait(20)
 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(23.1612663, 9.00001335, 132.719528, 1, 0, 0, 0, 1, 0, 0, 0, 1)
 
 local player = game.Players.LocalPlayer -- ใช้ LocalPlayer
