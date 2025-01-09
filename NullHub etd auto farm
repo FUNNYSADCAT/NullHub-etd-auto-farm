@@ -107,3 +107,24 @@ po.ChildAdded:connect(function(a)
         until false
     end
 end)
+
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+local PlayerGui = LocalPlayer:WaitForChild("PlayerGui")
+local GameGui = PlayerGui:WaitForChild("GameGui")
+local EndScreen = GameGui:WaitForChild("EndScreen")
+
+-- ฟังก์ชันเช็ค GUI และกด
+local function waitAndClickExit()
+    while true do
+        local exitButton = EndScreen:FindFirstChild("Exit")
+        if exitButton and exitButton:IsA("TextButton") then
+            exitButton:Activate() -- กดปุ่ม
+            print("Exit button clicked!")
+            break -- หยุดการตรวจสอบเมื่อกดแล้ว
+        end
+        task.wait(0.1) -- รอ 0.1 วินาทีเพื่อเช็คอีกครั้ง
+    end
+end
+
+waitAndClickExit()
